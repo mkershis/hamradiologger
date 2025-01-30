@@ -75,8 +75,15 @@ def getData(soup: BeautifulSoup, tag_name: str) -> str:
             return 'No'
         else:
             return 'Unknown'
-    else:
-        
+    elif tag_name == 'class':
+        # Do some nice formatting for the US licenses, otherwise just return the string
+        if soup.find('class').string == 'T':
+            return 'Technician'
+        elif soup.find('class').string == 'G':
+            return 'General'
+        elif soup.find('class').string == 'E':
+            return 'Amateur Extra'
+    else:        
         return soup.find(tag_name).string
     
 def lookupCallsign(callsign: str, session_key: str, username: str, password: str) -> int:
@@ -103,6 +110,7 @@ def lookupCallsign(callsign: str, session_key: str, username: str, password: str
     aliases = getData(soup, 'aliases')
     first_name = getData(soup, 'fname')
     last_name = getData(soup, 'name')
+    full_name = (first_name + ' ' + last_name).strip()
     addr1 = getData(soup, 'addr1')
     addr2 = getData(soup, 'addr2')
     state = getData(soup, 'state')
@@ -112,8 +120,9 @@ def lookupCallsign(callsign: str, session_key: str, username: str, password: str
     eqsl = getData(soup, 'eqsl')
     mqsl = getData(soup, 'mqsl')
     lotw = getData(soup, 'lotw')
+    lic_class = getData(soup, 'class')
 
-    result_string = f'Details for {callsign}:\n\nAliases: {aliases}\n\n{first_name} {last_name}\n{addr1}\n{addr2}, {state} {postal_code}\n{country}\n\nQSL Info: {qsl_info}\
+    result_string = f'Details for {callsign}:\n\nAliases: {aliases}\nLicense class: {lic_class}\n\n{full_name}\n{addr1}\n{addr2}, {state} {postal_code}\n{country}\n\nQSL Info: {qsl_info}\
                         \n\nQSL Preferences:\nLOTW?: {lotw}\neQSL?: {eqsl}\nMail?: {mqsl}'
     print(result_string)
     return 0
