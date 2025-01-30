@@ -83,6 +83,10 @@ def getData(soup: BeautifulSoup, tag_name: str) -> str:
             return 'General'
         elif soup.find('class').string == 'E':
             return 'Amateur Extra'
+        elif soup.find('class').string == 'C':
+            return 'Club'
+        else:
+            return soup.find('class').string
     else:        
         return soup.find(tag_name).string
     
