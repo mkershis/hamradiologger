@@ -51,6 +51,7 @@ Enter the callsign you wish to search for ("q" to quit): W1AW  # hit enter...
 Details for W1AW:
 
 Aliases
+License class: Club
 
 ARRL HQ OPERATORS CLUB
 225 MAIN ST
@@ -92,8 +93,7 @@ Once you're finished logging contacts, just type "q" at the next callsign search
 You looked up 3 callsign(s) and logged 1 contact(s) in a total runtime of 00:10:09 (h:m:s)
 ```
 ### Dependencies
-Much of this program uses the Python standard library, but there are some dependencies to be aware of:
-#### Required
+The following packages are required dependencies:
 * `bs4` - Since interfacing the QRZ log involves parsing XML, you will need to have `BeautifulSoup` installed (try ```pip install beautifulsoup4```). hamradiologger was developed using ver. `4.12.3`
-#### Optional
+* `requests` - needed for the API calls (try ```pip install requests```). I used version `2.32.3`. 
 *   `pandas` - There is a `queryAll()` function in the `qrz` library which effectively downloads all of the entries in your QRZ.com log and returns the data in a pandas dataframe. While this function isn't needed to run the logger or lookup functions, you will need pandas if you wish to use it separately. I used version `2.2.2`.
