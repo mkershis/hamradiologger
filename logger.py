@@ -3,7 +3,14 @@ from datetime import datetime, timezone
 import os
 import time
 import qrz
-import sys
+import sys 
+
+def clear_screen():
+    '''Platform independent way of clearing screens'''
+    if os.name == 'nt':
+        _ = os.system('cls')
+    else:
+        _ = os.system('clear')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p','--prompt',dest='prompt_user',default=False,type=bool, help='Prompt for credentials')
@@ -16,7 +23,7 @@ else:
     username, password, api_key = qrz.readCredentials()
 
 session_key = qrz.establishSession(username, password)
-os.system('cls')
+clear_screen()
 
 print('Welcome to Ham Radio Logger')
 print('Created by Matt Kershis, W2MDK')
@@ -37,7 +44,7 @@ contacts_logged = 0
 #start the clock to get session run time later on
 beginning_time = time.time()
 while True:
-    os.system('cls')
+    clear_screen()
     callsign = input('Enter the callsign you wish to search for ("q" to quit): ').upper()
     if callsign == '':
         print('You entered a blank callsign. Please try again.')
@@ -78,6 +85,6 @@ ending_time = time.time()
 duration = ending_time - beginning_time
 runtime_string = time.strftime('%H:%M:%S', time.gmtime(duration))
 
-os.system('cls')
+clear_screen()
 print(f'You looked up {lookups} callsign(s) and logged {contacts_logged} contact(s) in a total runtime of {runtime_string} (h:m:s)')
 print('Session terminated.')
